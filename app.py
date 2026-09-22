@@ -29,28 +29,49 @@ st.set_page_config(
 # ENVIRONMENT
 # ============================================================
 
-load_dotenv(override=True)
+# ============================================================
+# ENVIRONMENT / STREAMLIT SECRETS
+# ============================================================
 
-AZURE_OPENAI_API_KEY = os.getenv(
-    "AZURE_OPENAI_API_KEY",
-    ""
-).strip()
+load_dotenv()
 
-AZURE_OPENAI_ENDPOINT = os.getenv(
-    "AZURE_OPENAI_ENDPOINT",
-    ""
-).strip()
+def get_secret(name, default=""):
+    """
+    Get configuration from Streamlit Secrets first.
+    Fall back to local .env/environment variables when running locally.
+    """
 
-AZURE_OPENAI_API_VERSION = os.getenv(
+    # Streamlit Cloud
+    try:
+        value = st.secrets.get(name)
+
+        if value is not None:
+            return str(value).strip()
+
+    except Exception:
+        pass
+
+    # Local .env / environment variable
+    return os.getenv(name, default).strip()
+
+
+AZURE_OPENAI_API_KEY = get_secret(
+    "AZURE_OPENAI_API_KEY"
+)
+
+AZURE_OPENAI_ENDPOINT = get_secret(
+    "AZURE_OPENAI_ENDPOINT"
+)
+
+AZURE_OPENAI_API_VERSION = get_secret(
     "AZURE_OPENAI_API_VERSION",
     "2025-03-01-preview"
-).strip()
+)
 
-AZURE_OPENAI_DEPLOYMENT = os.getenv(
+AZURE_OPENAI_DEPLOYMENT = get_secret(
     "AZURE_OPENAI_DEPLOYMENT",
     "gpt-4o"
-).strip()
-
+)
 
 # ============================================================
 # AZURE OPENAI CLIENT
