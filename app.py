@@ -23,6 +23,109 @@ st.set_page_config(
     page_icon="📊",
     layout="wide"
 )
+# ============================================================
+# PASSWORD PROTECTION
+# ============================================================
+
+def get_app_password():
+    try:
+        if "APP_PASSWORD" in st.secrets:
+            return str(st.secrets["APP_PASSWORD"])
+    except Exception:
+        pass
+
+    # Local fallback
+    return os.getenv("APP_PASSWORD", "5511")
+
+
+def password_gate():
+    """
+    Prevent access to the application until the correct
+    password is entered.
+    """
+
+    if st.session_state.get("authenticated", False):
+        return True
+
+    st.markdown(
+        """
+        <style>
+        .login-container {
+            max-width: 420px;
+            margin: 100px auto 0 auto;
+            padding: 35px;
+            border-radius: 15px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div class="login-container">
+            <div class="login-title">
+                📊 HDFC Bank
+            </div>
+            <div class="login-subtitle">
+                AI Strategic Intelligence
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    password = st.text_input(
+        "Password",
+        type="password",
+        placeholder="Enter password",
+        key="login_password"
+    )
+
+    if st.button(
+        "🔐 Access Dashboard",
+        use_container_width=True
+    ):
+
+        correct_password = get_app_password()
+
+        if password == correct_password:
+
+            st.session_state["authenticated"] = True
+
+            # Remove password from session state
+            st.session_state.pop("login_password", None)
+
+            st.rerun()
+
+        else:
+
+            st.error("Incorrect password.")
+
+    return False
+
+# ============================================================
+# AUTHENTICATION GATE
+# ============================================================
+
+if not password_gate():
+    st.stop()
 
 
 # ============================================================
