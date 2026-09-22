@@ -3128,38 +3128,38 @@ The screenshot is a structural reference only.
 # SIDEBAR
 # ============================================================
 
-with st.sidebar:
+# with st.sidebar:
 
-    st.header(
-        "⚙️ Azure OpenAI"
-    )
+#     st.header(
+#         "⚙️ Azure OpenAI"
+#     )
 
-    st.write(
-        f"Deployment: "
-        f"`{AZURE_OPENAI_DEPLOYMENT}`"
-    )
+#     st.write(
+#         f"Deployment: "
+#         f"`{AZURE_OPENAI_DEPLOYMENT}`"
+#     )
 
-    st.write(
-        f"API Version: "
-        f"`{AZURE_OPENAI_API_VERSION}`"
-    )
+#     st.write(
+#         f"API Version: "
+#         f"`{AZURE_OPENAI_API_VERSION}`"
+#     )
 
-    st.write(
-        f"Endpoint: "
-        f"`{AZURE_OPENAI_ENDPOINT}`"
-    )
+#     st.write(
+#         f"Endpoint: "
+#         f"`{AZURE_OPENAI_ENDPOINT}`"
+#     )
 
-    if client is not None:
+#     if client is not None:
 
-        st.success(
-            "✅ Azure OpenAI configured"
-        )
+#         st.success(
+#             "✅ Azure OpenAI configured"
+#         )
 
-    else:
+#     else:
 
-        st.error(
-            "❌ Azure OpenAI not configured"
-        )
+#         st.error(
+#             "❌ Azure OpenAI not configured"
+#         )
 
 
 # ============================================================
